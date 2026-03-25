@@ -25,7 +25,7 @@ export default function Navbar({ activeSection, mobileMenuOpen, setMobileMenuOpe
             <Icon name="Home" size={16} className="text-[#0D0F14]" />
           </div>
           <span className="font-oswald font-bold text-xl tracking-wider text-white">
-            РУФ<span className="text-amber-500">ПРО</span>
+            ЮГ<span className="text-amber-500">ПРОФКРОВ</span>
           </span>
         </div>
 

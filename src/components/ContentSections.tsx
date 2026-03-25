@@ -52,12 +52,12 @@ const MATERIALS = [
 ];
 
 const PORTFOLIO_ITEMS = [
-  { title: "ТЦ «Северный»", area: "4 200 м²", material: "ПВХ-мембрана", year: "2024" },
-  { title: "Логистический центр", area: "12 500 м²", material: "ТПО-мембрана", year: "2024" },
-  { title: "ЖК «Парк Авеню»", area: "890 м²", material: "Инверсионная", year: "2023" },
-  { title: "Офисный комплекс", area: "3 100 м²", material: "ЭПДМ-резина", year: "2023" },
-  { title: "Завод «МетаПром»", area: "18 000 м²", material: "ТПО-мембрана", year: "2022" },
-  { title: "Спортивный центр", area: "2 300 м²", material: "Жидкая кровля", year: "2022" },
+  { title: "ТЦ «Северный»", area: "4 200 м²", material: "ПВХ-мембрана", year: "2024", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/31a0114f-4716-4c96-bd38-d1849b4ff065.jpg" },
+  { title: "Логистический центр", area: "12 500 м²", material: "ТПО-мембрана", year: "2024", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/610c03e2-70fc-4d3e-821a-7674fc8a2484.jpg" },
+  { title: "ЖК «Парк Авеню»", area: "890 м²", material: "Инверсионная", year: "2023", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/3fb1bf0b-ce3e-4213-9cbd-f182721c9b4f.jpg" },
+  { title: "Офисный комплекс", area: "3 100 м²", material: "ЭПДМ-резина", year: "2023", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/31a0114f-4716-4c96-bd38-d1849b4ff065.jpg" },
+  { title: "Завод «МетаПром»", area: "18 000 м²", material: "ТПО-мембрана", year: "2022", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/610c03e2-70fc-4d3e-821a-7674fc8a2484.jpg" },
+  { title: "Спортивный центр", area: "2 300 м²", material: "Жидкая кровля", year: "2022", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/3fb1bf0b-ce3e-4213-9cbd-f182721c9b4f.jpg" },
 ];
 
 const REVIEWS = [
@@ -194,17 +194,15 @@ export default function ContentSections() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PORTFOLIO_ITEMS.map((item, i) => (
+            {PORTFOLIO_ITEMS.map((item) => (
               <div key={item.title} className="card-roof rounded-xl overflow-hidden group cursor-pointer">
-                <div
-                  className="h-40 relative"
-                  style={{
-                    background: `linear-gradient(135deg, hsl(${(i * 40) % 360}, 20%, 12%), hsl(${(i * 40 + 30) % 360}, 15%, 8%))`,
-                  }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Icon name="Building2" size={48} className="text-amber-500/30 group-hover:text-amber-500/60 transition-all duration-300" fallback="Home" />
-                  </div>
+                <div className="h-48 relative overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F14]/70 to-transparent" />
                   <div className="absolute top-3 right-3 bg-amber-500 text-[#0D0F14] text-xs font-bold px-2 py-1 rounded font-oswald">
                     {item.year}
                   </div>
@@ -347,10 +345,10 @@ export default function ContentSections() {
               <Icon name="Home" size={14} className="text-[#0D0F14]" />
             </div>
             <span className="font-oswald font-bold text-lg tracking-wider text-white">
-              РУФ<span className="text-amber-500">ПРО</span>
+              ЮГ<span className="text-amber-500">ПРОФКРОВ</span>
             </span>
           </div>
-          <p className="text-[#7A8099] text-sm">© 2024 РуфПро. Все права защищены.</p>
+          <p className="text-[#7A8099] text-sm">© 2024 Юг Профкров. Все права защищены.</p>
           <div className="flex gap-4 text-sm text-[#7A8099]">
             <button className="hover:text-amber-400 transition-colors">Политика</button>
             <button className="hover:text-amber-400 transition-colors">Договор</button>
