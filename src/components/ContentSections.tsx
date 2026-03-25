@@ -55,9 +55,6 @@ const PORTFOLIO_ITEMS = [
   { title: "ТЦ «Северный»", area: "4 200 м²", material: "ПВХ-мембрана", year: "2024", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/31a0114f-4716-4c96-bd38-d1849b4ff065.jpg" },
   { title: "Логистический центр", area: "12 500 м²", material: "ТПО-мембрана", year: "2024", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/610c03e2-70fc-4d3e-821a-7674fc8a2484.jpg" },
   { title: "ЖК «Парк Авеню»", area: "890 м²", material: "Инверсионная", year: "2023", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/3fb1bf0b-ce3e-4213-9cbd-f182721c9b4f.jpg" },
-  { title: "Офисный комплекс", area: "3 100 м²", material: "ЭПДМ-резина", year: "2023", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/31a0114f-4716-4c96-bd38-d1849b4ff065.jpg" },
-  { title: "Завод «МетаПром»", area: "18 000 м²", material: "ТПО-мембрана", year: "2022", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/610c03e2-70fc-4d3e-821a-7674fc8a2484.jpg" },
-  { title: "Спортивный центр", area: "2 300 м²", material: "Жидкая кровля", year: "2022", img: "https://cdn.poehali.dev/projects/5f246663-0b68-408a-ae37-ab1062b472e9/files/3fb1bf0b-ce3e-4213-9cbd-f182721c9b4f.jpg" },
 ];
 
 const REVIEWS = [
@@ -321,8 +318,8 @@ export default function ContentSections() {
 
           <div className="grid grid-cols-3 gap-6 mt-8">
             {[
-              { icon: "Phone", label: "Телефон", val: "+7 (800) 555-35-35" },
-              { icon: "Mail", label: "Email", val: "info@rufpro.ru" },
+              { icon: "Phone", label: "Телефон", val: "+7 (909) 418-81-61" },
+              { icon: "Mail", label: "Email", val: "dmitrypechionkin161@mail.ru" },
               { icon: "Clock", label: "Режим работы", val: "Пн–Пт 8:00–20:00" },
             ].map((c) => (
               <div key={c.label} className="text-center">
