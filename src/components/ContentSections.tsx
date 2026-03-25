@@ -1,4 +1,7 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
+
+const SEND_LEAD_URL = "https://functions.poehali.dev/38fd7b7f-5d2f-45b0-befd-a517c1063eb6";
 
 const MATERIALS = [
   {
@@ -77,6 +80,148 @@ const REVIEWS = [
     rating: 5,
   },
 ];
+
+function ContactsSection() {
+  const [form, setForm] = useState({ name: "", phone: "", area: "", object_type: "Жилой дом", message: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const set = (field: string, val: string) => setForm((p) => ({ ...p, [field]: val }));
+
+  const submit = async () => {
+    if (!form.phone.trim()) return;
+    setStatus("loading");
+    try {
+      const res = await fetch(SEND_LEAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setStatus(res.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <section id="contacts" className="py-20 bg-[#080A0E] relative">
+      <div className="absolute inset-0 grid-pattern opacity-20" />
+      <div className="relative max-w-4xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <span className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3 block">Контакты</span>
+          <h2 className="section-title text-4xl md:text-5xl text-white mb-4">
+            ПОЛУЧИТЕ <span className="text-amber-500">РАСЧЁТ</span>
+          </h2>
+          <p className="text-[#7A8099]">Оставьте заявку — позвоним в течение 30 минут в рабочее время</p>
+        </div>
+
+        <div className="card-roof rounded-2xl p-8">
+          {status === "success" ? (
+            <div className="text-center py-10">
+              <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="CheckCircle" size={32} className="text-amber-500" />
+              </div>
+              <h3 className="font-oswald text-2xl text-white mb-2">Заявка отправлена!</h3>
+              <p className="text-[#7A8099]">Мы свяжемся с вами в течение 30 минут в рабочее время.</p>
+              <button onClick={() => { setStatus("idle"); setForm({ name: "", phone: "", area: "", object_type: "Жилой дом", message: "" }); }} className="mt-6 text-amber-400 hover:text-amber-300 text-sm transition-colors">
+                Отправить ещё одну заявку
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="text-sm text-[#7A8099] mb-2 block">Ваше имя</label>
+                  <input
+                    type="text"
+                    placeholder="Александр"
+                    value={form.name}
+                    onChange={(e) => set("name", e.target.value)}
+                    className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-[#7A8099] mb-2 block">Телефон <span className="text-amber-500">*</span></label>
+                  <input
+                    type="tel"
+                    placeholder="+7 (999) 000-00-00"
+                    value={form.phone}
+                    onChange={(e) => set("phone", e.target.value)}
+                    className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-[#7A8099] mb-2 block">Площадь кровли</label>
+                  <input
+                    type="text"
+                    placeholder="например, 500 м²"
+                    value={form.area}
+                    onChange={(e) => set("area", e.target.value)}
+                    className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-[#7A8099] mb-2 block">Тип объекта</label>
+                  <select
+                    value={form.object_type}
+                    onChange={(e) => set("object_type", e.target.value)}
+                    className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-[#7A8099] text-sm outline-none transition-colors"
+                  >
+                    <option>Жилой дом</option>
+                    <option>Коммерческое здание</option>
+                    <option>Промышленный объект</option>
+                    <option>Другое</option>
+                  </select>
+                </div>
+              </div>
+              <textarea
+                rows={3}
+                placeholder="Опишите задачу: новое строительство или ремонт, текущие проблемы, пожелания по материалам..."
+                value={form.message}
+                onChange={(e) => set("message", e.target.value)}
+                className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors resize-none mb-6"
+              />
+              {status === "error" && (
+                <p className="text-red-400 text-sm mb-4">Ошибка отправки. Попробуйте ещё раз или позвоните нам.</p>
+              )}
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
+                <button
+                  onClick={submit}
+                  disabled={status === "loading" || !form.phone.trim()}
+                  className="btn-primary-roof w-full sm:w-auto px-10 py-4 rounded-lg text-base flex items-center gap-2 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? (
+                    <><Icon name="Loader" size={18} className="animate-spin" />Отправляем...</>
+                  ) : (
+                    <><Icon name="Send" size={18} />Отправить заявку</>
+                  )}
+                </button>
+                <p className="text-[#7A8099] text-xs text-center">
+                  Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="grid grid-cols-3 gap-6 mt-8">
+          {[
+            { icon: "Phone", label: "Телефон", val: "+7 (909) 418-81-61" },
+            { icon: "Mail", label: "Email", val: "dmitrypechionkin161@mail.ru" },
+            { icon: "Clock", label: "Режим работы", val: "Пн–Пт 8:00–20:00" },
+          ].map((c) => (
+            <div key={c.label} className="text-center">
+              <div className="w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Icon name={c.icon} size={18} className="text-amber-500" fallback="Info" />
+              </div>
+              <div className="text-[#7A8099] text-xs mb-1">{c.label}</div>
+              <div className="text-white text-sm font-medium">{c.val}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function ContentSections() {
   return (
@@ -252,87 +397,7 @@ export default function ContentSections() {
         </div>
       </section>
 
-      {/* CONTACTS */}
-      <section id="contacts" className="py-20 bg-[#080A0E] relative">
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="relative max-w-4xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <span className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3 block">Контакты</span>
-            <h2 className="section-title text-4xl md:text-5xl text-white mb-4">
-              ПОЛУЧИТЕ <span className="text-amber-500">РАСЧЁТ</span>
-            </h2>
-            <p className="text-[#7A8099]">Оставьте заявку — позвоним в течение 30 минут в рабочее время</p>
-          </div>
-
-          <div className="card-roof rounded-2xl p-8">
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="text-sm text-[#7A8099] mb-2 block">Ваше имя</label>
-                <input
-                  type="text"
-                  placeholder="Александр"
-                  className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-[#7A8099] mb-2 block">Телефон</label>
-                <input
-                  type="tel"
-                  placeholder="+7 (999) 000-00-00"
-                  className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-[#7A8099] mb-2 block">Площадь кровли</label>
-                <input
-                  type="text"
-                  placeholder="например, 500 м²"
-                  className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-[#7A8099] mb-2 block">Тип объекта</label>
-                <select className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-[#7A8099] text-sm outline-none transition-colors">
-                  <option>Жилой дом</option>
-                  <option>Коммерческое здание</option>
-                  <option>Промышленный объект</option>
-                  <option>Другое</option>
-                </select>
-              </div>
-            </div>
-            <textarea
-              rows={3}
-              placeholder="Опишите задачу: новое строительство или ремонт, текущие проблемы, пожелания по материалам..."
-              className="w-full bg-[#0D0F14] border border-[#1E2230] focus:border-amber-500/50 rounded-lg px-4 py-3 text-white placeholder-[#7A8099] text-sm outline-none transition-colors resize-none mb-6"
-            />
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <button className="btn-primary-roof w-full sm:w-auto px-10 py-4 rounded-lg text-base flex items-center gap-2 justify-center">
-                <Icon name="Send" size={18} />
-                Отправить заявку
-              </button>
-              <p className="text-[#7A8099] text-xs text-center">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-6 mt-8">
-            {[
-              { icon: "Phone", label: "Телефон", val: "+7 (909) 418-81-61" },
-              { icon: "Mail", label: "Email", val: "dmitrypechionkin161@mail.ru" },
-              { icon: "Clock", label: "Режим работы", val: "Пн–Пт 8:00–20:00" },
-            ].map((c) => (
-              <div key={c.label} className="text-center">
-                <div className="w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Icon name={c.icon} size={18} className="text-amber-500" fallback="Info" />
-                </div>
-                <div className="text-[#7A8099] text-xs mb-1">{c.label}</div>
-                <div className="text-white text-sm font-medium">{c.val}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ContactsSection />
 
       {/* FOOTER */}
       <footer className="bg-[#0D0F14] border-t border-[#1E2230] py-8">

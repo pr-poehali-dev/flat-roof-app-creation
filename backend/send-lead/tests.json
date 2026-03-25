@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Заявка без телефона — ошибка",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест"},
+      "expectedStatus": 400
+    },
+    {
+      "name": "Заявка с телефоном — успех",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Дмитрий", "phone": "+7 (909) 418-81-61", "area": "500 м²", "object_type": "Коммерческое здание", "message": "Тест"},
+      "expectedStatus": 200
+    }
+  ]
+}
